@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SNDQ — Internal Page Master v6</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:'Inter',sans-serif;font-size:14px;background:#F0F2F5;color:#111827;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1000px;margin:0 auto;padding:32px 24px 64px}
+.hero{background:#0D1B3E;border-radius:14px;padding:24px 28px;margin-bottom:24px;display:flex;align-items:center;gap:22px;box-shadow:0 4px 24px rgba(13,27,62,.25)}
+.hero-badge{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.12em;color:#7BB8F0}
+.hero-div{width:1px;height:40px;background:rgba(255,255,255,.15);flex-shrink:0}
+.hero-r{display:flex;flex-direction:column;gap:4px}
+.hero-title{font-size:18px;font-weight:600;color:#fff}
+.hero-sub{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.02em}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:32px}
+.stat{background:#fff;border-radius:10px;padding:14px 16px;border:1px solid #E5E7EB}
+.stat-n{font-size:24px;font-weight:700;color:#111827}
+.stat-l{font-size:11px;color:#9CA3AF;margin-top:2px}
+.persona-divider{display:flex;align-items:center;gap:14px;margin:32px 0 16px}
+.persona-divider-line{flex:1;height:1px;background:#E5E7EB}
+.persona-label{display:flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;white-space:nowrap}
+.persona-label.syndic{background:#EFF6FF;color:#1D4ED8;border:1px solid #BFDBFE}
+.persona-label.steward{background:#F0FDF4;color:#166534;border:1px solid #A7F3D0}
+.persona-label.shared{background:#F5F3FF;color:#5B21B6;border:1px solid #DDD6FE}
+.persona-dot{width:7px;height:7px;border-radius:50%}
+.persona-label.syndic .persona-dot{background:#1D4ED8}
+.persona-label.steward .persona-dot{background:#166534}
+.persona-label.shared .persona-dot{background:#5B21B6}
+.sec{margin-bottom:20px}
+.sec-hd{display:flex;align-items:center;border-radius:10px;overflow:hidden;margin-bottom:8px;min-height:46px}
+.sec-hd.syndic{background:#1E3A8A}
+.sec-hd.steward{background:#14532D}
+.sec-hd.shared{background:#3B0764}
+.sec-n{width:108px;min-height:46px;display:flex;align-items:center;justify-content:center;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;flex-shrink:0;text-align:center;padding:0 8px;line-height:1.35}
+.sec-hd.syndic .sec-n{background:rgba(59,130,246,.25);color:#93C5FD;border-right:1px solid rgba(255,255,255,.08)}
+.sec-hd.steward .sec-n{background:rgba(34,197,94,.2);color:#86EFAC;border-right:1px solid rgba(255,255,255,.08)}
+.sec-hd.shared .sec-n{background:rgba(139,92,246,.25);color:#C4B5FD;border-right:1px solid rgba(255,255,255,.08)}
+.sec-info{padding:10px 18px;flex:1}
+.sec-title{font-size:13px;font-weight:600;color:#fff}
+.sec-sub{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px}
+.tbl-wrap{border-radius:10px;border:1px solid #E5E7EB;overflow:hidden;background:#fff}
+table{width:100%;border-collapse:collapse;table-layout:fixed;font-size:12px}
+thead tr.syndic-head{background:#1E3A8A}
+thead tr.steward-head{background:#14532D}
+thead tr.shared-head{background:#3B0764}
+thead th{padding:9px 14px;text-align:left;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45)}
+tbody tr{border-top:1px solid #F3F4F6}
+tbody tr:hover td{background:#FAFAFA}
+td{padding:10px 14px;vertical-align:top;color:#374151;line-height:1.5;font-family:'Inter',sans-serif}
+.col-num{width:36px;color:#9CA3AF;font-size:11px;text-align:center;vertical-align:middle}
+.col-page{width:22%}
+.col-tags{width:26%}
+.col-notes{width:52%}
+.page-name{font-weight:600;color:#111827;font-size:12.5px;font-family:'Inter',sans-serif}
+.tags{display:flex;flex-wrap:wrap;gap:4px}
+.tag{font-size:10px;padding:2px 7px;border-radius:4px;background:#F3F4F6;color:#6B7280;border:1px solid #E5E7EB;font-family:'Inter',sans-serif}
+.notes-text{font-size:11.5px;color:#6B7280;line-height:1.7;font-family:'Inter',sans-serif}
+.notes-empty{color:#D1D5DB;font-style:italic;font-size:11px}
+.tag-index-wrap{padding:4px 0}
+.tag-group{display:grid;grid-template-columns:190px 1fr;align-items:start;gap:14px;border-top:1px solid #F3F4F6;padding:11px 18px}
+.tag-group:last-child{border-bottom:none}
+.tag-group-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:3px 8px 3px 0;line-height:1.5;color:#111827}
+.tag-group-label span{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:6px;vertical-align:middle;position:relative;top:-1px}
+.tag-group-label.syndic-cat span{background:#3B82F6}
+.tag-group-label.steward-cat span{background:#22C55E}
+.tag-group-label.shared-cat span{background:#8B5CF6}
+.tag-group-label.fin-cat span{background:#F59E0B}
+.tag-group-label.comm-cat span{background:#EC4899}
+.tag-group-label.ops-cat span{background:#6B7280}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="hero">
+  <div class="hero-badge">SNDQ · Internal Page Master</div>
+  <div class="hero-div"></div>
+  <div class="hero-r">
+    <div class="hero-title">Syndic vs Steward — Clear Personas</div>
+    <div class="hero-sub">v6 · Dashboard · Settings · Solution reorder · Resources split into 5 · Financial order corrected</div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-n">131</div><div class="stat-l">Total pages</div></div>
+  <div class="stat"><div class="stat-n">44</div><div class="stat-l">Syndic pages</div></div>
+  <div class="stat"><div class="stat-n">42</div><div class="stat-l">Steward pages</div></div>
+  <div class="stat"><div class="stat-n">45</div><div class="stat-l">Shared pages</div></div>
+</div>
+
+<div style="position:sticky;top:0;z-index:100;display:flex;gap:8px;padding:10px 0;background:#F0F2F5;margin-bottom:20px">
+  <button onclick="document.getElementById('section-syndic').scrollIntoView({behavior:'smooth'})" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;background:#1E3A8A;border-radius:9px;border:none;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:'Inter',sans-serif;letter-spacing:.02em;box-shadow:0 2px 8px rgba(30,58,138,.3)">
+    <span style="width:7px;height:7px;border-radius:50%;background:#93C5FD;flex-shrink:0"></span>Syndic
+  </button>
+  <button onclick="document.getElementById('section-steward').scrollIntoView({behavior:'smooth'})" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;background:#14532D;border-radius:9px;border:none;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:'Inter',sans-serif;letter-spacing:.02em;box-shadow:0 2px 8px rgba(20,83,45,.3)">
+    <span style="width:7px;height:7px;border-radius:50%;background:#86EFAC;flex-shrink:0"></span>Steward
+  </button>
+  <button onclick="document.getElementById('section-shared').scrollIntoView({behavior:'smooth'})" style="flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:10px 16px;background:#3B0764;border-radius:9px;border:none;cursor:pointer;font-size:12px;font-weight:600;color:#fff;font-family:'Inter',sans-serif;letter-spacing:.02em;box-shadow:0 2px 8px rgba(59,7,100,.3)">
+    <span style="width:7px;height:7px;border-radius:50%;background:#C4B5FD;flex-shrink:0"></span>Shared
+  </button>
+</div>
+
+<!-- ═══ SYNDIC ═══ -->
+<div id="section-syndic" class="persona-divider">
+  <div class="persona-divider-line"></div>
+  <div class="persona-label syndic"><div class="persona-dot"></div>SYNDIC</div>
+  <div class="persona-divider-line"></div>
+</div>
+
+<!-- SYNDIC · Dashboard -->
+<div class="sec">
+  <div class="sec-hd syndic"><div class="sec-n">Dashboard</div><div class="sec-info"><div class="sec-title">Dashboard Overview</div><div class="sec-sub">Syndic · 1 page</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="syndic-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Dashboard</span></td><td><div class="tags"><span class="tag">dashboard</span><span class="tag">overview</span><span class="tag">certificates</span><span class="tag">tasks</span></div></td><td class="notes-text">Syndic activity overview: Certificates (Expiring Soon / Expired) · Tasks due within a week · New requests — quick portfolio status at a glance</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SYNDIC · Buildings / Patrimony -->
+<div class="sec">
+  <div class="sec-hd syndic"><div class="sec-n">Buildings</div><div class="sec-info"><div class="sec-title">Buildings / Patrimony</div><div class="sec-sub">Syndic · 12 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="syndic-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">General Info</span></td><td><div class="tags"><span class="tag">core</span><span class="tag">info</span><span class="tag">owners</span></div></td><td class="notes-text">Enterprise number · Building manager · Building number · Building name · Address · Establishment · Shares · Concierge · Owners</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Building Passport</span></td><td><div class="tags"><span class="tag">passport</span><span class="tag">certificates</span><span class="tag">insurance</span><span class="tag">legal</span></div></td><td class="notes-text">Legal status · Construction year · Purchase date · Interior/Exterior m³ · Parking · Estimations · Insurances · Certificates · Renovations · Cost</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Utility Management</span></td><td><div class="tags"><span class="tag">energy</span><span class="tag">water</span><span class="tag">gas</span><span class="tag">meters</span></div></td><td class="notes-text">Electricity, water, gas, and heat meter readings tracked per building</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Keys Management</span></td><td><div class="tags"><span class="tag">keys</span><span class="tag">access</span></div></td><td class="notes-text">Keys and access control management per building</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">Units Management</span></td><td><div class="tags"><span class="tag">unit</span><span class="tag">property</span><span class="tag">owner</span></div></td><td class="notes-text">List and status of each unit within the building</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Facilities Management</span></td><td><div class="tags"><span class="tag">facilities</span><span class="tag">maintenance</span></div></td><td class="notes-text">Building facilities and shared equipment management</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">Distribution Keys</span></td><td><div class="tags"><span class="tag">VME</span><span class="tag">cost-allocation</span><span class="tag">accounting</span></div></td><td class="notes-text">Define distribution keys per building — when creating an invoice, the Syndic selects the appropriate key to correctly allocate costs to each co-owner</td></tr>
+      <tr><td class="col-num">8</td><td><span class="page-name">Council of Co-ownership</span></td><td><div class="tags"><span class="tag">VME</span><span class="tag">governance</span><span class="tag">co-owner</span></div></td><td class="notes-text">Group of co-owners with a governance role in the VME — member list, roles, permissions, co-owner portal access</td></tr>
+      <tr><td class="col-num">9</td><td><span class="page-name">Meetings</span></td><td><div class="tags"><span class="tag">VME</span><span class="tag">meetings</span><span class="tag">workflow</span><span class="tag">minutes</span></div></td><td class="notes-text">2 meetings/year + 1 backup. Sequential workflow: Meeting Announcement → Agenda Submission → Agenda Finalization → Invitation Sending → Meeting Day → Meeting Report</td></tr>
+      <tr><td class="col-num">10</td><td><span class="page-name">Tasks & Requests</span></td><td><div class="tags"><span class="tag">workflow</span><span class="tag">operations</span><span class="tag">VME</span></div></td><td class="notes-text">Handle building operational tasks (elevator repairs, maintenance...) · Execute decisions agreed upon by the VME</td></tr>
+      <tr><td class="col-num">11</td><td><span class="page-name">Notes</span></td><td><div class="tags"><span class="tag">notes</span><span class="tag">internal</span></div></td><td class="notes-text">Internal notes per building</td></tr>
+      <tr><td class="col-num">12</td><td><span class="page-name">Files</span></td><td><div class="tags"><span class="tag">storage</span><span class="tag">documents</span></div></td><td class="notes-text">Upload and manage building documents — separate from files stored within VME meetings</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SYNDIC · Contacts -->
+<div class="sec">
+  <div class="sec-hd syndic"><div class="sec-n">Contacts</div><div class="sec-info"><div class="sec-title">Contacts — Owner · Supplier</div><div class="sec-sub">Syndic · 3 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="syndic-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Contacts</span></td><td><div class="tags"><span class="tag">core</span><span class="tag">database</span><span class="tag">contact</span></div></td><td class="notes-text">Contact directory overview — supports import from legacy software or CSV</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Owners / Co-owners</span></td><td><div class="tags"><span class="tag">owner</span><span class="tag">co-owner</span><span class="tag">VME</span><span class="tag">legal</span></div></td><td class="notes-text">Co-owner information: personal details, bank account, share % in building, communication history</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Suppliers</span></td><td><div class="tags"><span class="tag">supplier</span><span class="tag">vendor</span><span class="tag">payment</span><span class="tag">tax</span></div></td><td class="notes-text">Supplier information: contact details, bank transfer information, VAT number</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SYNDIC · Communicate -->
+<div class="sec">
+  <div class="sec-hd syndic"><div class="sec-n">Communicate</div><div class="sec-info"><div class="sec-title">Communicate / Broadcast</div><div class="sec-sub">Syndic · 3 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="syndic-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Broadcasts</span></td><td><div class="tags"><span class="tag">broadcast</span><span class="tag">email</span><span class="tag">letter</span><span class="tag">owner</span><span class="tag">supplier</span></div></td><td class="notes-text">A single unified page handling both Email and Letter. Delivery method: Respect preference / Email / Letter. Supports templates, merge fields, scheduled sending, PDF attachments, and recipient selection</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Generated Letter</span></td><td><div class="tags"><span class="tag">letter</span><span class="tag">template</span><span class="tag">generated</span><span class="tag">owner</span></div></td><td class="notes-text">Auto-generate letters from templates — merge fields (owner name, building, amount...) → complete letter ready to print or send</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">SNDQ At Home</span></td><td><div class="tags"><span class="tag">app</span><span class="tag">owner portal</span><span class="tag">notification</span></div></td><td class="notes-text">Communication channel via the SNDQ At Home app — notifications, documents, and updates delivered directly to owners via the portal</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SYNDIC · Financial -->
+<div class="sec">
+  <div class="sec-hd syndic"><div class="sec-n">Financial</div><div class="sec-info"><div class="sec-title">Financial</div><div class="sec-sub">Syndic · 10 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="syndic-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Bank Accounts</span></td><td><div class="tags"><span class="tag">accounts</span><span class="tag">finance</span><span class="tag">multi-account</span></div></td><td class="notes-text">Manage bank accounts per building<br>Each building can have multiple separate accounts<br>Connected via Ponto / Isabel integration</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Peppol Integration</span></td><td><div class="tags"><span class="tag">Peppol</span><span class="tag">integration</span><span class="tag">e-invoice</span></div></td><td class="notes-text">Receive electronic invoices via the Peppol network<br>Invoices automatically linked to SNDQ — no manual entry needed</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Payment Methods</span></td><td><div class="tags"><span class="tag">SEPA</span><span class="tag">Ponto</span><span class="tag">Isabel</span><span class="tag">multi-bank</span></div></td><td class="notes-text">5 payment methods:<br>① Manual SEPA — create file, upload to bank portal<br>② SEPA via Ponto / Isabel — upload via intermediary<br>③ Ponto Connected — automatic, real-time, single bank<br>④ Isabel Connected — sign once, multi-bank<br>⑤ Direct Debit — supplier pulls funds directly; SNDQ is not involved, only receives the invoice</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Invoice</span></td><td><div class="tags"><span class="tag">supplier</span><span class="tag">invoice</span><span class="tag">incoming</span></div></td><td class="notes-text">Receive supplier invoices — via Peppol or manual entry<br>Linked to distribution keys to correctly allocate costs to co-owners</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">Payment Initiation</span></td><td><div class="tags"><span class="tag">payment</span><span class="tag">initiation</span><span class="tag">status</span></div></td><td class="notes-text">All outgoing payment orders are centralized here<br>Track progress: pending / processing / completed / failed<br>Uses one of 5 payment methods</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Payment Request</span></td><td><div class="tags"><span class="tag">owner</span><span class="tag">provision</span><span class="tag">fund</span></div></td><td class="notes-text">Periodically collect payments from owners<br>Includes: provision · working capital fund · charges per distribution key</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">Auto Reconciliation</span></td><td><div class="tags"><span class="tag">reconciliation</span><span class="tag">transaction</span><span class="tag">auto</span></div></td><td class="notes-text">Reconcile bank transactions<br>Assign each transaction manually or auto-reconcile in bulk</td></tr>
+      <tr><td class="col-num">8</td><td><span class="page-name">Cost Settlement</span></td><td><div class="tags"><span class="tag">settlement</span><span class="tag">provision</span><span class="tag">cost-allocation</span><span class="tag">owner</span></div></td><td class="notes-text">End of period: compare total provision collected from owners against actual costs per distribution key<br>Shortfall → collect additional from owner<br>Surplus → refund or carry over to next period</td></tr>
+      <tr><td class="col-num">9</td><td><span class="page-name">Bookkeeping & Financial Reports</span></td><td><div class="tags"><span class="tag">bookkeeping</span><span class="tag">reporting</span><span class="tag">analytics</span></div></td><td class="notes-text">Accounting records + financial reports per building<br>Includes: balance · income/expense · co-owner statements</td></tr>
+      <tr><td class="col-num">10</td><td><span class="page-name">Opening Data Setup</span></td><td><div class="tags"><span class="tag">data migration</span><span class="tag">onboarding</span><span class="tag">manual input</span></div></td><td class="notes-text">Import initial data from legacy software to SNDQ<br>Supports file import or manual entry<br>Includes: opening balances · contracts · owners</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SYNDIC · Workspace Settings -->
+<div class="sec">
+  <div class="sec-hd syndic"><div class="sec-n">Workspace Settings</div><div class="sec-info"><div class="sec-title">Workspace Settings</div><div class="sec-sub">Syndic · 9 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="syndic-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">General</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">workspace</span><span class="tag">branding</span><span class="tag">usage</span></div></td><td class="notes-text">Workspace ID · Type (Syndic) · Subtype (3rd party)<br>Usage: Properties · Inbox · Domains · Emails · Letters · Smart Accounts · Members<br>Branding: Logo · Color · Font<br>Fee management</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Provision Calculation</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">provision</span><span class="tag">calculation</span><span class="tag">automation</span></div></td><td class="notes-text">Automated provision & cost calculation<br>Configure how SNDQ calculates and allocates provision to co-owners per distribution key</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Fee Configuration</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">fees</span><span class="tag">management fee</span><span class="tag">config</span></div></td><td class="notes-text">Configure the Syndic management fee per building / portfolio</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Users</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">users</span><span class="tag">team</span><span class="tag">access</span></div></td><td class="notes-text">Manage team members: Add user · admin rights toggle<br>Status: Active / Invited · Sorted by Creation date</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">Integrations</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">integration</span><span class="tag">Ponto</span><span class="tag">Isabel</span><span class="tag">Peppol</span></div></td><td class="notes-text">Email SNDQ (2 tabs: Mailboxes — connect Google / Microsoft / Yahoo / iCloud / Zoom / Virtual Calendar; Domains — set up custom sending domain via DNS) · Ponto Connect · Isabel Connect · Peppol<br>Available soon: Exact · WhatsApp · AFAS software</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Templates</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">template</span><span class="tag">letter</span><span class="tag">email</span></div></td><td class="notes-text">Create and store templates used in Broadcasts and Generated Letters<br>Types: Broadcast message · Payment reminder<br>Tab: Templates | Letter Layout</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">Automations</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">automation</span><span class="tag">reminder</span></div></td><td class="notes-text">Automatically remind owners about open payments<br>Friendly reminder · First reminder · Second reminder<br>Each type configured independently</td></tr>
+      <tr><td class="col-num">8</td><td><span class="page-name">History Logs</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">history</span><span class="tag">audit</span><span class="tag">log</span></div></td><td class="notes-text">Full audit trail of all workspace actions<br>Columns: Timestamp · Triggered by · Type · Action · Description<br>Types: Transactions · Purchase_invoice · ...<br>Actions: Create / Update / Approve · 25 items per page</td></tr>
+      <tr><td class="col-num">9</td><td><span class="page-name">Time Tracking</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">time tracking</span><span class="tag">interactions</span></div></td><td class="notes-text">Log interactions linked to contacts and properties: Phone call · Email · Meeting · Other<br>Fields: Type · Date · Time · Contact (or Supplier) · Linked property · Note<br>View history: Interaction · Linked · Created by · Last edited</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SYNDIC · Personal Settings -->
+<div class="sec">
+  <div class="sec-hd syndic"><div class="sec-n">Personal Settings</div><div class="sec-info"><div class="sec-title">Personal Settings</div><div class="sec-sub">Syndic · 2 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="syndic-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Personal Settings</span></td><td><div class="tags"><span class="tag">personal</span><span class="tag">account</span><span class="tag">security</span><span class="tag">workspaces</span></div></td><td class="notes-text">Workspace list (Own rental / Steward / Professional syndic) · Personal info (name, language, phone, email) · Account security (password, 2-step verification) · Notification preferences</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Notifications</span></td><td><div class="tags"><span class="tag">personal</span><span class="tag">notifications</span><span class="tag">push</span></div></td><td class="notes-text">Configure notification preferences per channel (Email / In-app)<br>Push notifications toggle (browser)<br>Events: Message mention · New/update notification · Task closed/new/update · Cipal sync events · Export completed/failed · Meter reading · New payment · New e-invoice (Peppol) · Poll · Invoice approved/pending/rejected · Quote due · New transaction · Payment reminders completed/failed · Suggestions based on usage</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SYNDIC · App Library -->
+<div class="sec">
+  <div class="sec-hd syndic"><div class="sec-n">App Library</div><div class="sec-info"><div class="sec-title">App Library</div><div class="sec-sub">Syndic · 4 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="syndic-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Quotations</span></td><td><div class="tags"><span class="tag">app</span><span class="tag">quotation</span><span class="tag">supplier</span></div></td><td class="notes-text">Request quotations from suppliers for work on a building or plot</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Cases</span></td><td><div class="tags"><span class="tag">app</span><span class="tag">cases</span><span class="tag">disputes</span></div></td><td class="notes-text">Compile case files for disputes, enhancements, or any relevant workspace items — link documents, invoices, and communications into a single overview</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Sophie AI</span></td><td><div class="tags"><span class="tag">app</span><span class="tag">AI</span><span class="tag">assistant</span></div></td><td class="notes-text">Intelligent AI assistant for property management — ask questions, get insights, and automate tasks via AI-powered conversations</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Inbox</span></td><td><div class="tags"><span class="tag">app</span><span class="tag">email</span><span class="tag">mailbox</span></div></td><td class="notes-text">Email mailboxes and saved replies — centralized inbox for all workspace communication</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ═══ STEWARD ═══ -->
+<div id="section-steward" class="persona-divider">
+  <div class="persona-divider-line"></div>
+  <div class="persona-label steward"><div class="persona-dot"></div>STEWARD</div>
+  <div class="persona-divider-line"></div>
+</div>
+
+<!-- STEWARD · Dashboard -->
+<div class="sec">
+  <div class="sec-hd steward"><div class="sec-n">Dashboard</div><div class="sec-info"><div class="sec-title">Dashboard Overview</div><div class="sec-sub">Steward · 1 page</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Dashboard</span></td><td><div class="tags"><span class="tag">dashboard</span><span class="tag">overview</span><span class="tag">indexation</span><span class="tag">deposits</span></div></td><td class="notes-text">Steward activity overview: Rental contracts (Indexation due · Ending soon · Up for termination · Pending deposits) · Certificates (Expiring Soon / Expired) · Tasks due · New requests</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- STEWARD · Patrimony -->
+<div class="sec">
+  <div class="sec-hd steward"><div class="sec-n">Patrimony</div><div class="sec-info"><div class="sec-title">Patrimony / Units & Lease</div><div class="sec-sub">Steward · 8 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Units Management</span></td><td><div class="tags"><span class="tag">unit</span><span class="tag">property</span><span class="tag">owner</span></div></td><td class="notes-text">Basic unit information: name, address, type (Residential / Commercial / Garage / Storage / Apartment / Room / Studio...), linked owner, surface area, energy label</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Rental Contract / Lease</span></td><td><div class="tags"><span class="tag">lease</span><span class="tag">tenant</span><span class="tag">owner</span><span class="tag">deposit</span></div></td><td class="notes-text">Lease linked to tenant & owner: base rent · indexation or revision · VAT · extra costs (flat rate or provision) · discount · duration · silent renewal · Deposit: SNDQ only stores deposit information (amount, status) — funds are held by a third party as agreed between tenant and steward; SNDQ does not hold funds</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Assistant</span></td><td><div class="tags"><span class="tag">insurance</span><span class="tag">keys</span><span class="tag">inventory</span><span class="tag">rules</span></div></td><td class="notes-text">Fire insurance · Key unit · Inventory incoming (before tenant moves in) · Inventory outgoing (when tenant moves out) · Rules of internal order (house rules)</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Revision & Indexation</span></td><td><div class="tags"><span class="tag">indexation</span><span class="tag">revision</span><span class="tag">health index</span></div></td><td class="notes-text">Indexation: annual rent adjustment based on the health index (Statbel) — calculate, notify tenant, update contract, log history. Revision: rent adjustment by mutual agreement outside of indexation</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">Termination</span></td><td><div class="tags"><span class="tag">termination</span><span class="tag">exit</span><span class="tag">lease</span></div></td><td class="notes-text">Contract termination: notice period tracking · exit checklist · handover date · end-of-period settlement · deposit return details (based on information stored in SNDQ)</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Files</span></td><td><div class="tags"><span class="tag">storage</span><span class="tag">documents</span></div></td><td class="notes-text">Upload and manage documents per unit / lease — contracts, handover reports, correspondence</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">Notes</span></td><td><div class="tags"><span class="tag">notes</span><span class="tag">internal</span></div></td><td class="notes-text">Internal notes per unit / lease</td></tr>
+      <tr><td class="col-num">8</td><td><span class="page-name">History</span></td><td><div class="tags"><span class="tag">history</span><span class="tag">log</span><span class="tag">audit</span></div></td><td class="notes-text">Full unit history: tenant changes over periods, indexation events, revisions, and rent changes over time</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- STEWARD · Contacts -->
+<div class="sec">
+  <div class="sec-hd steward"><div class="sec-n">Contacts</div><div class="sec-info"><div class="sec-title">Contacts — Owner · Tenant · Supplier</div><div class="sec-sub">Steward · 4 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Contacts</span></td><td><div class="tags"><span class="tag">core</span><span class="tag">database</span><span class="tag">contact</span></div></td><td class="notes-text">Contact directory overview — supports import from legacy software or CSV</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Owners</span></td><td><div class="tags"><span class="tag">owner</span><span class="tag">property</span><span class="tag">bank</span></div></td><td class="notes-text">Owner information: personal details, bank account for payout, list of owned units</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Tenants</span></td><td><div class="tags"><span class="tag">tenant</span><span class="tag">rental contract</span><span class="tag">contact</span></div></td><td class="notes-text">Tenant information: personal details, linked rental contract, identification documents</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Suppliers</span></td><td><div class="tags"><span class="tag">supplier</span><span class="tag">vendor</span><span class="tag">payment</span><span class="tag">tax</span></div></td><td class="notes-text">Supplier information: contact details, bank transfer information, VAT number</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- STEWARD · Communicate -->
+<div class="sec">
+  <div class="sec-hd steward"><div class="sec-n">Communicate</div><div class="sec-info"><div class="sec-title">Communicate / Broadcast</div><div class="sec-sub">Steward · 3 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Broadcasts</span></td><td><div class="tags"><span class="tag">broadcast</span><span class="tag">email</span><span class="tag">letter</span><span class="tag">owner</span><span class="tag">tenant</span></div></td><td class="notes-text">Send communications to owners / tenants: indexation notices, contract updates, periodic information. Delivery: Email / Letter / Respect preference</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Generated Letter</span></td><td><div class="tags"><span class="tag">letter</span><span class="tag">template</span><span class="tag">generated</span><span class="tag">owner</span><span class="tag">tenant</span></div></td><td class="notes-text">Auto-generate letters from templates — merge fields (tenant/owner name, unit, rent amount, indexation date...) → complete letter ready to print or send</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">SNDQ At Home</span></td><td><div class="tags"><span class="tag">app</span><span class="tag">owner portal</span><span class="tag">tenant portal</span><span class="tag">notification</span></div></td><td class="notes-text">Communication channel via the SNDQ At Home app — notifications, documents, and updates delivered directly to owners / tenants via the portal</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- STEWARD · Task / Request -->
+<div class="sec">
+  <div class="sec-hd steward"><div class="sec-n">Task / Request</div><div class="sec-info"><div class="sec-title">Task / Request</div><div class="sec-sub">Steward · 1 page</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Tasks & Requests</span></td><td><div class="tags"><span class="tag">workflow</span><span class="tag">operations</span><span class="tag">unit</span></div></td><td class="notes-text">Handle operational tasks per unit: elevator repairs, system maintenance... — linked to unit, owner, and supplier</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- STEWARD · Financial -->
+<div class="sec">
+  <div class="sec-hd steward"><div class="sec-n">Financial</div><div class="sec-info"><div class="sec-title">Financial</div><div class="sec-sub">Steward · 10 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Bank Accounts</span></td><td><div class="tags"><span class="tag">accounts</span><span class="tag">finance</span><span class="tag">Ponto</span><span class="tag">Isabel</span></div></td><td class="notes-text">Manage Steward bank accounts<br>Connected via Ponto / Isabel integration</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Peppol Integration</span></td><td><div class="tags"><span class="tag">Peppol</span><span class="tag">integration</span><span class="tag">e-invoice</span></div></td><td class="notes-text">Receive electronic invoices via the Peppol network<br>Invoices automatically linked to SNDQ — no manual entry needed</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Payment Methods</span></td><td><div class="tags"><span class="tag">SEPA</span><span class="tag">Ponto</span><span class="tag">Isabel</span><span class="tag">multi-bank</span></div></td><td class="notes-text">5 payment methods:<br>① Manual SEPA — create file, upload to bank portal<br>② SEPA via Ponto / Isabel — upload via intermediary<br>③ Ponto Connected — automatic, real-time, single bank<br>④ Isabel Connected — sign once, multi-bank<br>⑤ Direct Debit — supplier pulls funds directly; SNDQ is not involved, only receives the invoice</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Payment Request / Incoming</span></td><td><div class="tags"><span class="tag">tenant</span><span class="tag">rent</span><span class="tag">provision</span><span class="tag">flat rate</span></div></td><td class="notes-text">Incoming payments from tenants include:<br>Base rent + operating charges (provision or flat rate)<br>Auto-generated per rental contract</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">Payout</span></td><td><div class="tags"><span class="tag">owner</span><span class="tag">steward fee</span><span class="tag">payout</span></div></td><td class="notes-text">Pay rent to owner — performed manually by the Steward<br>Calculate net rent after charges/expenses<br>Select up to 100 payouts at once → send to Payment Initiation for processing<br>Steward fee transferred to Steward's own account separately</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Invoice</span></td><td><div class="tags"><span class="tag">supplier</span><span class="tag">invoice</span><span class="tag">incoming</span></div></td><td class="notes-text">Supplier invoice — received via Peppol or entered manually<br>Linked to unit / lease to correctly track costs</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">Payment Initiation</span></td><td><div class="tags"><span class="tag">payment</span><span class="tag">initiation</span><span class="tag">status</span><span class="tag">outgoing</span></div></td><td class="notes-text">All outgoing payment orders centralized here<br>Track progress: pending / processing / completed / failed</td></tr>
+      <tr><td class="col-num">8</td><td><span class="page-name">Auto Reconciliation</span></td><td><div class="tags"><span class="tag">reconciliation</span><span class="tag">transaction</span><span class="tag">auto</span></div></td><td class="notes-text">Reconcile all incoming and outgoing transactions<br>Assign each transaction manually or auto-reconcile in bulk</td></tr>
+      <tr><td class="col-num">9</td><td><span class="page-name">Settlement</span></td><td><div class="tags"><span class="tag">settlement</span><span class="tag">provision</span><span class="tag">tenant</span></div></td><td class="notes-text">End of period: compare total provision collected against actual costs<br>Shortfall → collect additional from tenant<br>Surplus → refund to tenant<br>Flat rate does not require settlement</td></tr>
+      <tr><td class="col-num">10</td><td><span class="page-name">Bookkeeping & Financial Reports</span></td><td><div class="tags"><span class="tag">bookkeeping</span><span class="tag">reporting</span><span class="tag">analytics</span></div></td><td class="notes-text">Accounting records + financial reports per unit / owner<br>Includes: income · expense · owner statements</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- STEWARD · Workspace Settings -->
+<div class="sec">
+  <div class="sec-hd steward"><div class="sec-n">Workspace Settings</div><div class="sec-info"><div class="sec-title">Workspace Settings</div><div class="sec-sub">Steward · 9 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">General</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">workspace</span><span class="tag">branding</span><span class="tag">usage</span></div></td><td class="notes-text">Workspace ID · Type (Steward) · Subtype (3rd party)<br>Usage: Properties · Inbox · Domains · Emails · Letters · Smart Accounts · Members<br>Branding: Logo · Color · Font<br>Fee management</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Rent Calculation</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">rent</span><span class="tag">calculation</span><span class="tag">automation</span></div></td><td class="notes-text">Automated rent & cost calculation<br>Configure how SNDQ automatically calculates rent and costs per rental contract</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Fee Configuration</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">fees</span><span class="tag">management fee</span><span class="tag">config</span></div></td><td class="notes-text">Configure the Steward management fee<br>Percentage or fixed fee · Applied per unit / owner / portfolio</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Users</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">users</span><span class="tag">team</span><span class="tag">access</span></div></td><td class="notes-text">Manage team members: Add user · admin rights toggle<br>Status: Active / Invited · Sorted by Creation date</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">Integrations</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">integration</span><span class="tag">Ponto</span><span class="tag">Isabel</span><span class="tag">Peppol</span><span class="tag">Cipal</span></div></td><td class="notes-text">Email SNDQ (2 tabs: Mailboxes — connect Google / Microsoft / Yahoo / iCloud / Zoom / Virtual Calendar; Domains — set up custom sending domain via DNS) · Ponto Connect · Isabel Connect<br>Peppol (send, receive, and manage invoices via Peppol network)<br>Cipal Schaubroeck (sync payment requests to Foxtrot accounting)<br>Available soon: Exact · WhatsApp · AFAS software</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Templates</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">template</span><span class="tag">letter</span><span class="tag">email</span></div></td><td class="notes-text">Create and store templates used in Broadcasts and Generated Letters<br>Types: Payment reminder · Broadcast message · Rental contract · Indexation · Viewing invitation<br>Tab: Templates | Letter Layout</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">Automations</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">automation</span><span class="tag">reminder</span></div></td><td class="notes-text">Automatically remind tenants about open payments<br>Friendly reminder · First reminder · Second reminder<br>Each type configured independently</td></tr>
+      <tr><td class="col-num">8</td><td><span class="page-name">History Logs</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">history</span><span class="tag">audit</span><span class="tag">log</span></div></td><td class="notes-text">Full audit trail of all workspace actions<br>Columns: Timestamp · Triggered by · Type · Action · Description<br>Types: Lease · Transactions · Purchase_invoice · ...<br>Actions: Create / Update / Approve · 25 items per page</td></tr>
+      <tr><td class="col-num">9</td><td><span class="page-name">Time Tracking</span></td><td><div class="tags"><span class="tag">settings</span><span class="tag">time tracking</span><span class="tag">interactions</span></div></td><td class="notes-text">Log interactions linked to contacts and properties: Phone call · Email · Meeting · Other<br>Fields: Type · Date · Time · Contact (or Supplier) · Linked property · Note<br>View history: Interaction · Linked · Created by · Last edited</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- STEWARD · Personal Settings -->
+<div class="sec">
+  <div class="sec-hd steward"><div class="sec-n">Personal Settings</div><div class="sec-info"><div class="sec-title">Personal Settings</div><div class="sec-sub">Steward · 2 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Personal Settings</span></td><td><div class="tags"><span class="tag">personal</span><span class="tag">account</span><span class="tag">security</span><span class="tag">workspaces</span></div></td><td class="notes-text">Workspace list (Own rental / Steward / Professional syndic) · Personal info (name, language, phone, email) · Account security (password, 2-step verification) · Notification preferences</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Notifications</span></td><td><div class="tags"><span class="tag">personal</span><span class="tag">notifications</span><span class="tag">push</span></div></td><td class="notes-text">Configure notification preferences per channel (Email / In-app)<br>Push notifications toggle (browser)<br>Events: Message mention · New/update notification · Task closed/new/update · Cipal sync events · Export completed/failed · Meter reading · New payment · New e-invoice (Peppol) · Poll · Invoice approved/pending/rejected · Quote due · New transaction · Payment reminders completed/failed · Suggestions based on usage</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- STEWARD · App Library -->
+<div class="sec">
+  <div class="sec-hd steward"><div class="sec-n">App Library</div><div class="sec-info"><div class="sec-title">App Library</div><div class="sec-sub">Steward · 4 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Quotations</span></td><td><div class="tags"><span class="tag">app</span><span class="tag">quotation</span><span class="tag">supplier</span></div></td><td class="notes-text">Request quotations from suppliers for work on a unit or property</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Cases</span></td><td><div class="tags"><span class="tag">app</span><span class="tag">cases</span><span class="tag">disputes</span></div></td><td class="notes-text">Compile case files for disputes, enhancements, or any relevant workspace items — link documents, invoices, and communications into a single overview</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Sophie AI</span></td><td><div class="tags"><span class="tag">app</span><span class="tag">AI</span><span class="tag">assistant</span></div></td><td class="notes-text">Intelligent AI assistant for property management — ask questions, get insights, and automate tasks via AI-powered conversations</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Inbox</span></td><td><div class="tags"><span class="tag">app</span><span class="tag">email</span><span class="tag">mailbox</span></div></td><td class="notes-text">Email mailboxes and saved replies — centralized inbox for all workspace communication</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- ═══ SHARED ═══ -->
+<div id="section-shared" class="persona-divider">
+  <div class="persona-divider-line"></div>
+  <div class="persona-label shared"><div class="persona-dot"></div>SHARED — Products · Solution · Pricing · Resources · Help · Compare · Community · Company · Legal</div>
+  <div class="persona-divider-line"></div>
+</div>
+
+<!-- SHARED · Products -->
+<div class="sec">
+  <div class="sec-hd shared"><div class="sec-n">Products</div><div class="sec-info"><div class="sec-title">Products</div><div class="sec-sub">Shared · 3 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="shared-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">SNDQ Production</span></td><td><div class="tags"><span class="tag">product</span><span class="tag">web</span><span class="tag">syndic</span><span class="tag">steward</span></div></td><td class="notes-text">Web app — full-featured property management platform for professional Syndics and Stewards</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">SNDQ At Home</span></td><td><div class="tags"><span class="tag">product</span><span class="tag">mobile</span><span class="tag">owner portal</span><span class="tag">tenant portal</span></div></td><td class="notes-text">Mobile app for owners and tenants — view documents, receive notifications, track status, and interact with Syndic/Steward</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">SNDQ Lite</span></td><td><div class="tags"><span class="tag">product</span><span class="tag">mobile</span><span class="tag">syndic</span><span class="tag">steward</span></div></td><td class="notes-text">Mobile app for Syndics and Stewards — quick access to core features on the go</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SHARED · Solution -->
+<div class="sec">
+  <div class="sec-hd shared"><div class="sec-n">Solution</div><div class="sec-info"><div class="sec-title">Solution</div><div class="sec-sub">Shared · 9 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="shared-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">For Syndics</span></td><td><div class="tags"><span class="tag">ICP</span><span class="tag">VME</span><span class="tag">syndic</span></div></td><td class="notes-text">Focused on Syndics — co-ownership building management, VME, distribution keys, meetings</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">For Stewards</span></td><td><div class="tags"><span class="tag">ICP</span><span class="tag">steward</span><span class="tag">rental</span></div></td><td class="notes-text">Focused on Stewards (Rentmeesters) — rental management, leases, tenants, cash flow</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Landlords</span></td><td><div class="tags"><span class="tag">ICP</span><span class="tag">owner</span><span class="tag">portfolio</span></div></td><td class="notes-text">Property owners who self-manage their own portfolio</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Property Managers</span></td><td><div class="tags"><span class="tag">ICP</span><span class="tag">property</span><span class="tag">operations</span></div></td><td class="notes-text">Property managers operating multiple asset types</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">Building Managers</span></td><td><div class="tags"><span class="tag">ICP</span><span class="tag">building</span><span class="tag">operations</span></div></td><td class="notes-text">Building operations management — common areas, facilities, maintenance</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Rental Managers</span></td><td><div class="tags"><span class="tag">ICP</span><span class="tag">rental</span><span class="tag">lease</span></div></td><td class="notes-text">Specialists in rental management — lease lifecycle, indexation, rent collection</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">Small-Medium Office</span></td><td><div class="tags"><span class="tag">ICP</span><span class="tag">scale</span><span class="tag">small</span><span class="tag">medium</span></div></td><td class="notes-text">Small to medium offices — lean teams needing a simple yet complete tool</td></tr>
+      <tr><td class="col-num">8</td><td><span class="page-name">Scale Portfolio</span></td><td><div class="tags"><span class="tag">ICP</span><span class="tag">scale</span><span class="tag">large</span><span class="tag">reporting</span></div></td><td class="notes-text">Large portfolios — managing many buildings/units, requiring strong reporting and automation</td></tr>
+      <tr><td class="col-num">9</td><td><span class="page-name">Solutions Overview</span></td><td><div class="tags"><span class="tag">ICP</span><span class="tag">use-case</span><span class="tag">workflow</span></div></td><td class="notes-text">Overview page for all solutions — entry point before selecting the right persona</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SHARED · Pricing -->
+<div class="sec">
+  <div class="sec-hd shared"><div class="sec-n">Pricing</div><div class="sec-info"><div class="sec-title">Pricing</div><div class="sec-sub">Shared · 1 page</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="shared-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Pricing</span></td><td><div class="tags"><span class="tag">pricing</span><span class="tag">fees</span><span class="tag">pay-per-property</span></div></td><td class="notes-text">SNDQ pricing — pay-per-property, no subscription</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SHARED · Resources -->
+<div class="sec">
+  <div class="sec-hd shared"><div class="sec-n">Resources</div><div class="sec-info"><div class="sec-title">Resources</div><div class="sec-sub">Shared · 7 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="shared-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Guides & Tutorials</span></td><td><div class="tags"><span class="tag">guides</span><span class="tag">tutorials</span><span class="tag">knowledge</span></div></td><td class="notes-text">Step-by-step feature guides, tutorials, and how-to content by use case</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Case Studies</span></td><td><div class="tags"><span class="tag">case studies</span><span class="tag">success</span></div></td><td class="notes-text">Real-world cases and best practices</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Blog</span></td><td><div class="tags"><span class="tag">articles</span><span class="tag">insights</span></div></td><td class="notes-text">Industry articles and professional insights</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Glossary</span></td><td><div class="tags"><span class="tag">glossary</span><span class="tag">terminology</span></div></td><td class="notes-text">Syndic & Steward terminology — explains domain-specific concepts used in SNDQ</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">FAQ</span></td><td><div class="tags"><span class="tag">FAQ</span><span class="tag">questions</span></div></td><td class="notes-text">Frequently asked questions — quick answers on features, pricing, and onboarding</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Changelog</span></td><td><div class="tags"><span class="tag">changelog</span><span class="tag">updates</span><span class="tag">releases</span></div></td><td class="notes-text">Product update history — new features, bug fixes, and improvements per version</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">Status</span></td><td><div class="tags"><span class="tag">status</span><span class="tag">uptime</span><span class="tag">availability</span></div></td><td class="notes-text">Real-time SNDQ system status — uptime, incidents, and maintenance windows</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SHARED · Help -->
+<div class="sec">
+  <div class="sec-hd shared"><div class="sec-n">Help</div><div class="sec-info"><div class="sec-title">Help</div><div class="sec-sub">Shared · 2 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="shared-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Help Center</span></td><td><div class="tags"><span class="tag">support</span><span class="tag">FAQ</span><span class="tag">troubleshooting</span></div></td><td class="notes-text">Customer support, troubleshooting, and detailed feature guides</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Contact Support</span></td><td><div class="tags"><span class="tag">support</span><span class="tag">contact</span></div></td><td class="notes-text">Direct contact with the support team</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SHARED · Compare -->
+<div class="sec">
+  <div class="sec-hd shared"><div class="sec-n">Compare</div><div class="sec-info"><div class="sec-title">Compare — vs Competitors</div><div class="sec-sub">Shared · 9 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="shared-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">SNDQ vs Keypoint</span></td><td><div class="tags"><span class="tag">competitors</span><span class="tag">Keypoint</span><span class="tag">syndic</span><span class="tag">HIGH</span></div></td><td class="notes-text">Keypoint — HIGH threat · "Digital assistant for trustees" · insurer-tied, no transparent pricing, no free trial · direct syndic competitor</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">SNDQ vs Zeron</span></td><td><div class="tags"><span class="tag">competitors</span><span class="tag">Zeron</span><span class="tag">syndic</span><span class="tag">steward</span><span class="tag">HIGH</span></div></td><td class="notes-text">Zeron — HIGH threat · 4 products (Syndesk, Syndixis, Rentdesk, Rentalis) + Dobby · PE-backed · legacy complexity, no transparent pricing</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">SNDQ vs OpenSyndic</span></td><td><div class="tags"><span class="tag">competitors</span><span class="tag">OpenSyndic</span><span class="tag">syndic</span></div></td><td class="notes-text">OpenSyndic — "Cloud-based for syndics" · broad positioning, weak CTAs, no pricing shown</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">SNDQ vs Organimmo</span></td><td><div class="tags"><span class="tag">competitors</span><span class="tag">Organimmo</span><span class="tag">Properly</span><span class="tag">syndic</span><span class="tag">steward</span></div></td><td class="notes-text">Organimmo — 2 products: Properly (syndic) and organimmo · 30+ years in Belgium · enterprise pricing only, no free trial</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">SNDQ vs Rentio</span></td><td><div class="tags"><span class="tag">competitors</span><span class="tag">Rentio</span><span class="tag">steward</span></div></td><td class="notes-text">Rentio — rental platform for Belgian rentmeesters · Baloise-tied · partial pricing, no syndic coverage</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">SNDQ vs Smovin</span></td><td><div class="tags"><span class="tag">competitors</span><span class="tag">Smovin</span><span class="tag">steward</span></div></td><td class="notes-text">Smovin — transparent pricing ✓ · free plan ✓ · investor-only, no syndic, no professional steward coverage</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">SNDQ vs Yourent</span></td><td><div class="tags"><span class="tag">competitors</span><span class="tag">Yourent</span><span class="tag">steward</span></div></td><td class="notes-text">Yourent — rental management platform in Belgium</td></tr>
+      <tr><td class="col-num">8</td><td><span class="page-name">SNDQ vs Mymmo BV</span></td><td><div class="tags"><span class="tag">competitors</span><span class="tag">Mymmo</span><span class="tag">Openme</span><span class="tag">syndic</span><span class="tag">steward</span></div></td><td class="notes-text">Mymmo BV — 2 products: Mymmo App and Openme · property management Belgium</td></tr>
+      <tr><td class="col-num">9</td><td><span class="page-name">SNDQ vs Excel</span></td><td><div class="tags"><span class="tag">competitors</span><span class="tag">Excel</span><span class="tag">migration</span></div></td><td class="notes-text">High-intent page for users currently managing with Excel — "Switch from Excel to SNDQ" · no competition from direct competitors on this angle</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SHARED · Community -->
+<div class="sec">
+  <div class="sec-hd shared"><div class="sec-n">Community</div><div class="sec-info"><div class="sec-title">Community</div><div class="sec-sub">Shared · 2 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="shared-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Testimonials</span></td><td><div class="tags"><span class="tag">testimonials</span><span class="tag">social proof</span></div></td><td class="notes-text">Customer reviews — concise success stories</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Customer Stories</span></td><td><div class="tags"><span class="tag">customer</span><span class="tag">experience</span><span class="tag">case study</span></div></td><td class="notes-text">In-depth customer stories — real use cases and results achieved</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SHARED · Company -->
+<div class="sec">
+  <div class="sec-hd shared"><div class="sec-n">Company</div><div class="sec-info"><div class="sec-title">Company</div><div class="sec-sub">Shared · 7 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="shared-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">About Us</span></td><td><div class="tags"><span class="tag">company</span><span class="tag">overview</span><span class="tag">vision</span></div></td><td class="notes-text">SNDQ company information — history, vision, mission, and founding team</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Team</span></td><td><div class="tags"><span class="tag">company</span><span class="tag">team</span><span class="tag">founders</span></div></td><td class="notes-text">The team behind SNDQ — founders, core team, and advisors</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Security & Compliance</span></td><td><div class="tags"><span class="tag">company</span><span class="tag">security</span><span class="tag">GDPR</span><span class="tag">compliance</span></div></td><td class="notes-text">Data security and legal compliance commitment — GDPR, data hosting, encryption, Belgian regulations</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Partners</span></td><td><div class="tags"><span class="tag">company</span><span class="tag">partners</span><span class="tag">integrations</span></div></td><td class="notes-text">SNDQ integration partners — Ponto, Isabel, Peppol, Cipal Schaubroeck, and others</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">Press</span></td><td><div class="tags"><span class="tag">company</span><span class="tag">media</span><span class="tag">news</span><span class="tag">press</span></div></td><td class="notes-text">Press information, media coverage, and press kit</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Careers</span></td><td><div class="tags"><span class="tag">company</span><span class="tag">recruitment</span><span class="tag">jobs</span></div></td><td class="notes-text">Recruitment and open positions at SNDQ</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">Contact</span></td><td><div class="tags"><span class="tag">company</span><span class="tag">contact</span><span class="tag">sales</span></div></td><td class="notes-text">General contact — sales, partnerships, and media inquiries</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- SHARED · Legal -->
+<div class="sec">
+  <div class="sec-hd shared"><div class="sec-n">Legal</div><div class="sec-info"><div class="sec-title">Terms & Policies</div><div class="sec-sub">Shared · 5 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="shared-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Privacy Policy</span></td><td><div class="tags"><span class="tag">legal</span><span class="tag">privacy</span><span class="tag">GDPR</span></div></td><td class="notes-text">Privacy policy — how SNDQ collects, uses, and protects user data · GDPR compliant</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Terms of Service</span></td><td><div class="tags"><span class="tag">legal</span><span class="tag">terms</span><span class="tag">commercial</span></div></td><td class="notes-text">SNDQ terms of service — for business customers (Commercial)</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Cookie Policy</span></td><td><div class="tags"><span class="tag">legal</span><span class="tag">cookies</span><span class="tag">EU</span></div></td><td class="notes-text">Cookie policy — required under EU/Belgian law · types of cookies used and how to manage them</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Responsible Disclosure Policy</span></td><td><div class="tags"><span class="tag">legal</span><span class="tag">security</span><span class="tag">disclosure</span></div></td><td class="notes-text">Responsible vulnerability reporting process</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">Usage Policy</span></td><td><div class="tags"><span class="tag">legal</span><span class="tag">usage</span><span class="tag">acceptable use</span></div></td><td class="notes-text">Acceptable use policy — defines permitted use of SNDQ</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- TAG INDEX -->
+<div class="persona-divider">
+  <div class="persona-divider-line"></div>
+  <div class="persona-label shared"><div class="persona-dot"></div>TAG INDEX — All Tags</div>
+  <div class="persona-divider-line"></div>
+</div>
+
+<div class="tbl-wrap">
+  <div style="background:#1E3A8A;display:grid;grid-template-columns:190px 1fr;gap:14px;padding:9px 18px">
+    <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);font-family:'Inter',sans-serif">Category</div>
+    <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.45);font-family:'Inter',sans-serif">Tags</div>
+  </div>
+  <div class="tag-index-wrap">
+    <div class="tag-group">
+      <div class="tag-group-label syndic-cat"><span></span>Property / Patrimony</div>
+      <div class="tags"><span class="tag">unit</span><span class="tag">building</span><span class="tag">property</span><span class="tag">facilities</span><span class="tag">maintenance</span><span class="tag">energy</span><span class="tag">water</span><span class="tag">gas</span><span class="tag">meters</span><span class="tag">keys</span><span class="tag">access</span><span class="tag">passport</span><span class="tag">certificates</span><span class="tag">insurance</span></div>
+    </div>
+    <div class="tag-group">
+      <div class="tag-group-label steward-cat"><span></span>Lease / Rental Contract</div>
+      <div class="tags"><span class="tag">lease</span><span class="tag">rental contract</span><span class="tag">indexation</span><span class="tag">revision</span><span class="tag">VAT</span><span class="tag">flat rate</span><span class="tag">provision</span><span class="tag">deposit</span><span class="tag">discount</span><span class="tag">silent renewal</span><span class="tag">inventory</span></div>
+    </div>
+    <div class="tag-group">
+      <div class="tag-group-label syndic-cat"><span></span>VME / Syndic-specific</div>
+      <div class="tags"><span class="tag">VME</span><span class="tag">co-owner</span><span class="tag">cost-allocation</span><span class="tag">distribution key</span><span class="tag">fund</span><span class="tag">reserve</span><span class="tag">minutes</span><span class="tag">governance</span><span class="tag">council</span></div>
+    </div>
+    <div class="tag-group">
+      <div class="tag-group-label ops-cat"><span></span>Contacts</div>
+      <div class="tags"><span class="tag">contact</span><span class="tag">database</span><span class="tag">owner</span><span class="tag">tenant</span><span class="tag">supplier</span><span class="tag">vendor</span><span class="tag">tax</span><span class="tag">bank</span></div>
+    </div>
+    <div class="tag-group">
+      <div class="tag-group-label fin-cat"><span></span>Financial — Incoming</div>
+      <div class="tags"><span class="tag">invoice</span><span class="tag">incoming</span><span class="tag">payment request</span><span class="tag">rent</span><span class="tag">Peppol</span><span class="tag">e-invoice</span></div>
+    </div>
+    <div class="tag-group">
+      <div class="tag-group-label fin-cat"><span></span>Financial — Outgoing</div>
+      <div class="tags"><span class="tag">payout</span><span class="tag">payment initiation</span><span class="tag">steward fee</span><span class="tag">SEPA</span><span class="tag">Ponto</span><span class="tag">Isabel</span><span class="tag">multi-bank</span><span class="tag">status</span><span class="tag">outgoing</span></div>
+    </div>
+    <div class="tag-group">
+      <div class="tag-group-label fin-cat"><span></span>Financial — Reconcile & Reports</div>
+      <div class="tags"><span class="tag">reconciliation</span><span class="tag">auto</span><span class="tag">transaction</span><span class="tag">bookkeeping</span><span class="tag">reporting</span><span class="tag">analytics</span><span class="tag">accounts</span><span class="tag">settlement</span><span class="tag">direct debit</span><span class="tag">data migration</span><span class="tag">onboarding</span></div>
+    </div>
+    <div class="tag-group">
+      <div class="tag-group-label comm-cat"><span></span>Communication / Broadcast</div>
+      <div class="tags"><span class="tag">broadcast</span><span class="tag">email</span><span class="tag">letter</span><span class="tag">notification</span><span class="tag">app</span><span class="tag">owner portal</span><span class="tag">tenant portal</span><span class="tag">generated</span><span class="tag">template</span></div>
+    </div>
+    <div class="tag-group">
+      <div class="tag-group-label ops-cat"><span></span>Operations / Workflow</div>
+      <div class="tags"><span class="tag">workflow</span><span class="tag">operations</span><span class="tag">task</span><span class="tag">request</span><span class="tag">integration</span><span class="tag">automation</span><span class="tag">reminder</span></div>
+    </div>
+    <div class="tag-group">
+      <div class="tag-group-label ops-cat"><span></span>Settings & System</div>
+      <div class="tags"><span class="tag">settings</span><span class="tag">workspace</span><span class="tag">users</span><span class="tag">team</span><span class="tag">access</span><span class="tag">branding</span><span class="tag">usage</span><span class="tag">personal</span><span class="tag">account</span><span class="tag">security</span><span class="tag">history</span><span class="tag">audit</span><span class="tag">log</span><span class="tag">apps</span><span class="tag">extensions</span></div>
+    </div>
+    <div class="tag-group">
+      <div class="tag-group-label ops-cat"><span></span>Data / History</div>
+      <div class="tags"><span class="tag">history</span><span class="tag">log</span><span class="tag">audit</span><span class="tag">storage</span><span class="tag">documents</span><span class="tag">notes</span><span class="tag">internal</span><span class="tag">dashboard</span><span class="tag">overview</span></div>
+    </div>
+    <div class="tag-group">
+      <div class="tag-group-label shared-cat"><span></span>Marketing / Shared</div>
+      <div class="tags"><span class="tag">ICP</span><span class="tag">USP</span><span class="tag">use-case</span><span class="tag">competitors</span><span class="tag">comparison</span><span class="tag">pricing</span><span class="tag">pay-per-property</span><span class="tag">scale</span><span class="tag">growth</span><span class="tag">guides</span><span class="tag">tutorials</span><span class="tag">case studies</span><span class="tag">blog</span><span class="tag">glossary</span><span class="tag">FAQ</span><span class="tag">support</span><span class="tag">testimonials</span><span class="tag">social proof</span><span class="tag">company</span><span class="tag">media</span><span class="tag">press</span><span class="tag">recruitment</span><span class="tag">legal</span><span class="tag">product</span><span class="tag">mobile</span><span class="tag">changelog</span><span class="tag">status</span></div>
+    </div>
+  </div>
+</div>
+
+</div>
+</body>
+</html>
