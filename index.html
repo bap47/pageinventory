@@ -80,14 +80,14 @@ td{padding:10px 14px;vertical-align:top;color:#374151;line-height:1.5;font-famil
   <div class="hero-div"></div>
   <div class="hero-r">
     <div class="hero-title">Syndic vs Steward — Clear Personas</div>
-    <div class="hero-sub">v6 · Dashboard · Settings · Solution reorder · Resources split into 5 · Financial order corrected</div>
+    <div class="hero-sub">v7 · Steward Patrimony restructured · Single Unit / Buildings split · Lease Management section · Fund + Owner Balance (Syndic)</div>
   </div>
 </div>
 
 <div class="stats">
-  <div class="stat"><div class="stat-n">131</div><div class="stat-l">Total pages</div></div>
-  <div class="stat"><div class="stat-n">44</div><div class="stat-l">Syndic pages</div></div>
-  <div class="stat"><div class="stat-n">42</div><div class="stat-l">Steward pages</div></div>
+  <div class="stat"><div class="stat-n">137</div><div class="stat-l">Total pages</div></div>
+  <div class="stat"><div class="stat-n">45</div><div class="stat-l">Syndic pages</div></div>
+  <div class="stat"><div class="stat-n">47</div><div class="stat-l">Steward pages</div></div>
   <div class="stat"><div class="stat-n">45</div><div class="stat-l">Shared pages</div></div>
 </div>
 
@@ -171,7 +171,7 @@ td{padding:10px 14px;vertical-align:top;color:#374151;line-height:1.5;font-famil
 
 <!-- SYNDIC · Financial -->
 <div class="sec">
-  <div class="sec-hd syndic"><div class="sec-n">Financial</div><div class="sec-info"><div class="sec-title">Financial</div><div class="sec-sub">Syndic · 10 pages</div></div></div>
+  <div class="sec-hd syndic"><div class="sec-n">Financial</div><div class="sec-info"><div class="sec-title">Financial</div><div class="sec-sub">Syndic · 11 pages</div></div></div>
   <div class="tbl-wrap"><table>
     <thead><tr class="syndic-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
     <tbody>
@@ -180,7 +180,8 @@ td{padding:10px 14px;vertical-align:top;color:#374151;line-height:1.5;font-famil
       <tr><td class="col-num">3</td><td><span class="page-name">Payment Methods</span></td><td><div class="tags"><span class="tag">SEPA</span><span class="tag">Ponto</span><span class="tag">Isabel</span><span class="tag">multi-bank</span></div></td><td class="notes-text">5 payment methods:<br>① Manual SEPA — create file, upload to bank portal<br>② SEPA via Ponto / Isabel — upload via intermediary<br>③ Ponto Connected — automatic, real-time, single bank<br>④ Isabel Connected — sign once, multi-bank<br>⑤ Direct Debit — supplier pulls funds directly; SNDQ is not involved, only receives the invoice</td></tr>
       <tr><td class="col-num">4</td><td><span class="page-name">Invoice</span></td><td><div class="tags"><span class="tag">supplier</span><span class="tag">invoice</span><span class="tag">incoming</span></div></td><td class="notes-text">Receive supplier invoices — via Peppol or manual entry<br>Linked to distribution keys to correctly allocate costs to co-owners</td></tr>
       <tr><td class="col-num">5</td><td><span class="page-name">Payment Initiation</span></td><td><div class="tags"><span class="tag">payment</span><span class="tag">initiation</span><span class="tag">status</span></div></td><td class="notes-text">All outgoing payment orders are centralized here<br>Track progress: pending / processing / completed / failed<br>Uses one of 5 payment methods</td></tr>
-      <tr><td class="col-num">6</td><td><span class="page-name">Payment Request</span></td><td><div class="tags"><span class="tag">owner</span><span class="tag">provision</span><span class="tag">fund</span></div></td><td class="notes-text">Periodically collect payments from owners<br>Includes: provision · working capital fund · charges per distribution key</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Fund</span></td><td><div class="tags"><span class="tag">owner</span><span class="tag">fund</span><span class="tag">provision</span><span class="tag">working capital</span></div></td><td class="notes-text">Shows total fund balance across all sources:<br>① Working capital — operational running fund<br>② Fixed provision (Quỹ dự phòng) — regular fixed contributions<br>③ Reserve capital (Quỹ khấu hao) — depreciation reserve for damage / major repairs<br>④ Ungrouped payment requests — requests not yet assigned to one of the 3 fund sources above</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">Owner Balance</span></td><td><div class="tags"><span class="tag">owner</span><span class="tag">balance</span><span class="tag">called</span><span class="tag">paid</span><span class="tag">collect</span></div></td><td class="notes-text">Shows the financial position per owner:<br>· Called — total amount requested from the owner<br>· Paid — amount already paid (lump-sum payments auto-deduct against open calls)<br>· To collect — remaining balance still owed<br>Supports owners who pre-pay in bulk: SNDQ auto-deducts each new fund call, showing remaining credit or outstanding balance</td></tr>
       <tr><td class="col-num">7</td><td><span class="page-name">Auto Reconciliation</span></td><td><div class="tags"><span class="tag">reconciliation</span><span class="tag">transaction</span><span class="tag">auto</span></div></td><td class="notes-text">Reconcile bank transactions<br>Assign each transaction manually or auto-reconcile in bulk</td></tr>
       <tr><td class="col-num">8</td><td><span class="page-name">Cost Settlement</span></td><td><div class="tags"><span class="tag">settlement</span><span class="tag">provision</span><span class="tag">cost-allocation</span><span class="tag">owner</span></div></td><td class="notes-text">End of period: compare total provision collected from owners against actual costs per distribution key<br>Shortfall → collect additional from owner<br>Surplus → refund or carry over to next period</td></tr>
       <tr><td class="col-num">9</td><td><span class="page-name">Bookkeeping & Financial Reports</span></td><td><div class="tags"><span class="tag">bookkeeping</span><span class="tag">reporting</span><span class="tag">analytics</span></div></td><td class="notes-text">Accounting records + financial reports per building<br>Includes: balance · income/expense · co-owner statements</td></tr>
@@ -254,18 +255,34 @@ td{padding:10px 14px;vertical-align:top;color:#374151;line-height:1.5;font-famil
 
 <!-- STEWARD · Patrimony -->
 <div class="sec">
-  <div class="sec-hd steward"><div class="sec-n">Patrimony</div><div class="sec-info"><div class="sec-title">Patrimony / Units & Lease</div><div class="sec-sub">Steward · 8 pages</div></div></div>
+  <div class="sec-hd steward"><div class="sec-n">Patrimony</div><div class="sec-info"><div class="sec-title">Patrimony / Units Management</div><div class="sec-sub">Steward · 6 pages</div></div></div>
   <div class="tbl-wrap"><table>
     <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
     <tbody>
-      <tr><td class="col-num">1</td><td><span class="page-name">Units Management</span></td><td><div class="tags"><span class="tag">unit</span><span class="tag">property</span><span class="tag">owner</span></div></td><td class="notes-text">Basic unit information: name, address, type (Residential / Commercial / Garage / Storage / Apartment / Room / Studio...), linked owner, surface area, energy label</td></tr>
+      <tr><td class="col-num">1</td><td><span class="page-name">Single Unit</span></td><td><div class="tags"><span class="tag">unit</span><span class="tag">property</span><span class="tag">owner</span><span class="tag">single</span></div></td><td class="notes-text">Manage individual rental units one by one — basic unit info: name, address, type (Residential / Commercial / Garage / Storage / Apartment / Room / Studio...), linked owner, surface area, energy label. Tabs: Overview · Rental contracts · Owners · Facilities · Tasks · Requests · Notes · Files</td></tr>
+      <tr><td class="col-num">2</td><td><span class="page-name">Buildings</span></td><td><div class="tags"><span class="tag">building</span><span class="tag">multi-unit</span><span class="tag">property</span><span class="tag">owner</span></div></td><td class="notes-text">Manage an entire building and rent out individual units within it — building-level info: name, address, shared facilities, owners. Tabs: Overview · Units · Facilities · Distribution keys · Tasks · Requests · Broadcasts · Notes · Files · Quotes</td></tr>
+      <tr><td class="col-num">3</td><td><span class="page-name">Utility Management</span></td><td><div class="tags"><span class="tag">energy</span><span class="tag">water</span><span class="tag">gas</span><span class="tag">meters</span></div></td><td class="notes-text">Electricity, water, gas, and heat meter readings tracked per unit / building</td></tr>
+      <tr><td class="col-num">4</td><td><span class="page-name">Keys Management</span></td><td><div class="tags"><span class="tag">keys</span><span class="tag">access</span></div></td><td class="notes-text">Keys and access control management per unit / building</td></tr>
+      <tr><td class="col-num">5</td><td><span class="page-name">Facilities Management</span></td><td><div class="tags"><span class="tag">facilities</span><span class="tag">maintenance</span><span class="tag">equipment</span></div></td><td class="notes-text">Unit and building facilities management — shared equipment, amenities, and maintenance tracking</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Tasks & Requests</span></td><td><div class="tags"><span class="tag">workflow</span><span class="tag">operations</span><span class="tag">unit</span></div></td><td class="notes-text">Handle operational tasks per unit / building: repairs, system maintenance... — linked to unit, owner, and supplier</td></tr>
+    </tbody>
+  </table></div>
+</div>
+
+<!-- STEWARD · Lease Management -->
+<div class="sec">
+  <div class="sec-hd steward"><div class="sec-n">Lease Management</div><div class="sec-info"><div class="sec-title">Lease Management</div><div class="sec-sub">Steward · 8 pages</div></div></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
+    <tbody>
+      <tr><td class="col-num">1</td><td><span class="page-name">Overview</span></td><td><div class="tags"><span class="tag">overview</span><span class="tag">current rent</span><span class="tag">deposit</span><span class="tag">summary</span></div></td><td class="notes-text">Lease overview: Current rent breakdown (Rent · Flat rate · Provision · Total / Monthly) · Deposits section (amount, status, actions: Create payment request / Edit / View details / Delete) · Right panel: Linked property · Owner · Tenants · Payment reference · Silent renewal · Contract type · Initial duration · Signature date · Rent generation rule · Document type</td></tr>
       <tr><td class="col-num">2</td><td><span class="page-name">Rental Contract / Lease</span></td><td><div class="tags"><span class="tag">lease</span><span class="tag">tenant</span><span class="tag">owner</span><span class="tag">deposit</span></div></td><td class="notes-text">Lease linked to tenant & owner: base rent · indexation or revision · VAT · extra costs (flat rate or provision) · discount · duration · silent renewal · Deposit: SNDQ only stores deposit information (amount, status) — funds are held by a third party as agreed between tenant and steward; SNDQ does not hold funds</td></tr>
       <tr><td class="col-num">3</td><td><span class="page-name">Assistant</span></td><td><div class="tags"><span class="tag">insurance</span><span class="tag">keys</span><span class="tag">inventory</span><span class="tag">rules</span></div></td><td class="notes-text">Fire insurance · Key unit · Inventory incoming (before tenant moves in) · Inventory outgoing (when tenant moves out) · Rules of internal order (house rules)</td></tr>
       <tr><td class="col-num">4</td><td><span class="page-name">Revision & Indexation</span></td><td><div class="tags"><span class="tag">indexation</span><span class="tag">revision</span><span class="tag">health index</span></div></td><td class="notes-text">Indexation: annual rent adjustment based on the health index (Statbel) — calculate, notify tenant, update contract, log history. Revision: rent adjustment by mutual agreement outside of indexation</td></tr>
       <tr><td class="col-num">5</td><td><span class="page-name">Termination</span></td><td><div class="tags"><span class="tag">termination</span><span class="tag">exit</span><span class="tag">lease</span></div></td><td class="notes-text">Contract termination: notice period tracking · exit checklist · handover date · end-of-period settlement · deposit return details (based on information stored in SNDQ)</td></tr>
-      <tr><td class="col-num">6</td><td><span class="page-name">Files</span></td><td><div class="tags"><span class="tag">storage</span><span class="tag">documents</span></div></td><td class="notes-text">Upload and manage documents per unit / lease — contracts, handover reports, correspondence</td></tr>
-      <tr><td class="col-num">7</td><td><span class="page-name">Notes</span></td><td><div class="tags"><span class="tag">notes</span><span class="tag">internal</span></div></td><td class="notes-text">Internal notes per unit / lease</td></tr>
-      <tr><td class="col-num">8</td><td><span class="page-name">History</span></td><td><div class="tags"><span class="tag">history</span><span class="tag">log</span><span class="tag">audit</span></div></td><td class="notes-text">Full unit history: tenant changes over periods, indexation events, revisions, and rent changes over time</td></tr>
+      <tr><td class="col-num">6</td><td><span class="page-name">Files</span></td><td><div class="tags"><span class="tag">storage</span><span class="tag">documents</span></div></td><td class="notes-text">Upload and manage lease documents — contracts, handover reports, correspondence</td></tr>
+      <tr><td class="col-num">7</td><td><span class="page-name">Notes</span></td><td><div class="tags"><span class="tag">notes</span><span class="tag">internal</span></div></td><td class="notes-text">Internal notes per lease</td></tr>
+      <tr><td class="col-num">8</td><td><span class="page-name">History</span></td><td><div class="tags"><span class="tag">history</span><span class="tag">log</span><span class="tag">audit</span></div></td><td class="notes-text">Full lease history: tenant changes over periods, indexation events, revisions, and rent changes over time</td></tr>
     </tbody>
   </table></div>
 </div>
@@ -297,16 +314,7 @@ td{padding:10px 14px;vertical-align:top;color:#374151;line-height:1.5;font-famil
   </table></div>
 </div>
 
-<!-- STEWARD · Task / Request -->
-<div class="sec">
-  <div class="sec-hd steward"><div class="sec-n">Task / Request</div><div class="sec-info"><div class="sec-title">Task / Request</div><div class="sec-sub">Steward · 1 page</div></div></div>
-  <div class="tbl-wrap"><table>
-    <thead><tr class="steward-head"><th class="col-num">#</th><th class="col-page">Page</th><th class="col-tags">Tags</th><th class="col-notes">Notes / Details</th></tr></thead>
-    <tbody>
-      <tr><td class="col-num">1</td><td><span class="page-name">Tasks & Requests</span></td><td><div class="tags"><span class="tag">workflow</span><span class="tag">operations</span><span class="tag">unit</span></div></td><td class="notes-text">Handle operational tasks per unit: elevator repairs, system maintenance... — linked to unit, owner, and supplier</td></tr>
-    </tbody>
-  </table></div>
-</div>
+
 
 <!-- STEWARD · Financial -->
 <div class="sec">
@@ -582,4 +590,3 @@ td{padding:10px 14px;vertical-align:top;color:#374151;line-height:1.5;font-famil
 </div>
 </body>
 </html>
-
